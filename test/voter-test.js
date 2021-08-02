@@ -1,11 +1,17 @@
 const { expect } = require("chai");
 
 describe("Voting", function () {
-  it("Should have no return value to create a poll", async function () {
+  it("should create a polland enable fetching", async function () {
     const Voting = await ethers.getContractFactory("Voting");
     const voting = await Voting.deploy();
     await voting.deployed();
 
-    expect(await voting.createPoll()).to.not.equal("Return Value");
+    await voting.createPoll();
+    await voting.createPoll();
+
+    expect((await voting.getPolls())[0]).to.eql([
+      "Default Name",
+      "Default Name",
+    ]);
   });
 });
