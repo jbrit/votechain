@@ -4,10 +4,10 @@ import Link from "next/link";
 import logo from "../public/logo.png";
 import Image from "next/image";
 import { TemplateIcon } from '@heroicons/react/outline'
-// import { ClockIcon, CogIcon, MoonIcon, PencilAltIcon, TemplateIcon } from '@heroicons/react/outline'
-import { Settings, Moon, Clock, Edit, Menu, ToggleLeft, ToggleRight, LogOut } from 'react-feather'
+import { Settings, Moon, Clock, Edit, Menu, ToggleLeft, ToggleRight, LogOut, AlignLeft } from 'react-feather'
 import SidebarItem from "./SidebarItem";
-
+import { CreatePoll, FillPoll, History } from "./Icons";
+import Header from "./Header";
 const routes = [
   {
     name:"Dashboard",
@@ -18,25 +18,19 @@ const routes = [
   {
     name:"Create a Poll",
     path:"/create-poll",
-    icon:<Edit strokeWidth={1} />,
+    icon:CreatePoll,
     toggle:null
   },
   {
     name:"Fill a Poll",
     path:"/fill-poll",
-    icon:<Edit strokeWidth={1} />,
+    icon: FillPoll,
     toggle:null
   },
   {
     name:"Poll History",
     path:"/poll-history",
-    icon:<Clock strokeWidth={1} />,
-    toggle:null
-  },
-  {
-    name:"End a Poll",
-    path:"/end-poll",
-    icon:<Edit  strokeWidth={1} />,
+    icon:History,
     toggle:null
   },
   {
@@ -59,22 +53,26 @@ export default function Sidebar() {
     <>
       <nav className={(collapseShow && 'active ')+" transition-all sidebar justify-between flex flex-col left-0 fixed top-0 bottom-0 overflow-hidden shadow-xl bg-white w-74 z-10 py-4 px-6 pr-16"}>
         <div>
-          {/* Toggler */}
-          <button
-            className="cursor-pointer text-black border rounded px-2 py-1 ml-1 fixed left-64 left md:hidden"
-            type="button"
-            onClick={() => setCollapseShow(!collapseShow)}>
-            <Menu/>
-          </button>
-          {/* Toggler */}
+          
 
           {/* Brand */}
-          <Link href="/">
-            <a className="text-primary flex items-center font-bold">
-              <Image src={logo} width={100} height={100}/>
-              Votechain
-            </a>
-          </Link>
+          <div className="flex justify-between">
+            <Link href="/">
+              <a className="text-primary flex items-center font-bold">
+                <Image src={logo} width={80} height={100}/>
+                Votechain
+              </a>
+            </Link>
+            
+            {/* Toggler */}
+            <button
+              className="cursor-pointer text-black ml-3 mt-1 fixed left-64 top-12 left lg:hidden"
+              type="button"
+              onClick={() => setCollapseShow(!collapseShow)}>
+              <AlignLeft className="text-gray-400" width={30} height={30}/>
+            </button>
+            {/* Toggler */}
+          </div>
           {/* Brand */}
           
           {/* Collapse */}
@@ -93,6 +91,7 @@ export default function Sidebar() {
           {/* Collapse */}
 
       </nav>
+      <Header />
     </>
   );
 }

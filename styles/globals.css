@@ -29,12 +29,18 @@ h1,h2{
   font-weight: 400;
 }
 
-@media (max-width:767px) {
+.sidebar.active{
+  transform: translateX(0rem);
+}
+
+@media(max-width:1024px){
   .sidebar{
     transform: translateX(-15.7rem);
   }
-  .sidebar.active{
-    transform: translateX(0rem);
+}
+@media (max-width:768px) {
+  .md\:ml-74 {
+    margin-left: 19rem;
   }
 }
 
@@ -44,4 +50,65 @@ h1,h2{
 
 .left-62{
   left:15.9rem
+}
+
+.ml-18{
+  margin-left: 4.5rem;
+}
+
+.pill{
+  background: #f8f9fa;
+}
+
+.-mt-\.1{
+  margin-top: -0.15rem;
+}
+::-webkit-calendar-picker-indicator{
+  filter: invert(34%) sepia(74%) saturate(2740%) hue-rotate(219deg) brightness(94%) contrast(96%);
+}
+
+html{
+  width: 100%;
+}
+
+/* input[type='radio']:after {
+  background-color: #fff;
+  border: 1px solid;
+}
+
+input[type='radio']:checked:after {
+  background-color: #fff;
+  border: 1px solid #4264eb;
+  color: #4264eb;
+
+} */
+
+input[type='radio']:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #fff;
+  content: '';
+  display: inline-block;
+  border: 2px solid #d1d3d1;
+  padding: 5px;
+}
+
+/* input[type='radio']:before {
+  border-radius: 15px;
+  top: -5px;
+  left: -1px;
+  position: absolute;
+  background-color: #fff;
+  content: '';
+  border: 2px solid #d1d3d1;
+  padding: 10px;
+} */
+
+input[type='radio']:checked:after {
+  background-color: #4264eb;
+  border: 2px solid #4264eb;
 }
