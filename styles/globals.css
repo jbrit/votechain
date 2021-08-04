@@ -1,4 +1,4 @@
-@import url('http://fonts.cdnfonts.com/css/sofia-pro');
+@import url("https://fonts.cdnfonts.com/css/sofia-pro");
 
 @tailwind base;
 @tailwind components;
@@ -6,26 +6,26 @@
 
 :root {
   --bgColor: #f9fafc;
-  --primary:#4264eb;
-  --primary-disabled:#a0b1f5;
+  --primary: #4264eb;
+  --primary-disabled: #a0b1f5;
 }
 
-
-body{
+body {
   background-color: var(--bgColor);
-  height:100vh;
-  font-family: 'Sofia Pro', sans-serif;
+  height: 100vh;
+  font-family: "Sofia Pro", sans-serif;
   font-weight: 300;
 }
 
-button{
+button {
   border-radius: 8px;
 }
-button:disabled{
+button:disabled {
   background-color: var(--primary-disabled);
 }
 
-h1,h2{
+h1,
+h2 {
   font-weight: 400;
 }
 
@@ -44,7 +44,7 @@ h1,h2{
   }
 }
 
-.w-74{
+.w-74 {
   width: 19.5rem;
 }
 
