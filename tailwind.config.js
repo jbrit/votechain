@@ -19,7 +19,10 @@ module.exports = {
         hover:"5028c6",
         disabled:"5028c6"
       },
-      pink:"#51cf66",
+      pink:"#F784AD",
+      success:"#2BBB94",
+      danger:"#FF2052",
+      purple:"#7048E8",
 
 
 
