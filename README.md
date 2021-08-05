@@ -1,5 +1,5 @@
 
-# Voting D-APP
+# Voting dAPP
 
 This is a Voting dApp built with [Next.js](https://nextjs.org/) for the encode hackathon
 
@@ -26,14 +26,13 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  npm i
+  yarn install
 ```
 
-Start the server
+Start the development server
 
 ```bash
-  npx next build
-  npm run dev
+  yarn dev
 ```
 Open [http://localhost:3000](http://localhost:3000)
 
@@ -50,9 +49,9 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Authors
 
-- [Ajibola Ojo](https://www.github.com/jbtit)
+- [Ajibola Ojo](https://www.github.com/jbrit)
 - [Elijah Soladoye](https://www.github.com/showdow96)
-- [Ik]()
+- [Iykee](https://github.com/iyke4life)
 - [Ibitola Mayowa](https://www.linkedin.com/in/ibitolamayowa/)
 
 
