@@ -10,7 +10,7 @@ import { CreatePoll, FillPoll, History } from "./Icons";
 import Header from "./Header";
 import Toggler from "./Toggler";
 
-const routes = [
+export const routes = [
   {
     name:"Dashboard",
     path:"/dashboard",
