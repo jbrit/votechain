@@ -30,6 +30,6 @@ export const RadioSelected = <Image src={RadioSelectedIcon}/>
 
 export const Dashboard = <Image src={DashboardIcon}/>
 export const Toggle = <Image src={ToggleIcon}/>
-export const CreatePoll = <Image src={CreatePollIcon} className="text-white"/>
+export const CreatePoll = <Image src={CreatePollIcon}/>
 export const FillPoll = <Image src={FillPollIcon}/>
 export const History = <Image src={HistoryIcon}/>

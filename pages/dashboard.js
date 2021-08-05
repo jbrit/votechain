@@ -7,9 +7,11 @@ import { X } from "react-feather";
 import Pill from "../components/Pill";
 import Link from "next/link";
 import Poll from "../components/Poll";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 function Dashboard() {
-
+    const [openModal, setOpenModal] = useState(false)
     const polls = [
         {
             subject:"Best UI/UX Design Software.",
@@ -32,13 +34,22 @@ function Dashboard() {
             status:"Completed"
         }
     ]
+    
+    const handleEndPoll = () => {
+        console.log(".")
+        setOpenModal(true)
+    }
 
+    const handleClose = () => {
+        setOpenModal(false);
+    }
     return (
         <div>
             <Head>
                 <title>Voting DAPP | Dashboard</title>
             </Head>
             <Sidebar />
+            <Modal open={openModal} handleClose={handleClose} title="Are you sure you want to end this Poll?" body="Please note that this action is irreversible."/>
 
             <div className="lg:ml-80 ml-16 mr-2 mt-5 p-4 rounded">
                 <div className="mx-4 flex xl:flex-row flex-col xl:justify-between">
@@ -89,7 +100,7 @@ function Dashboard() {
                                     <span className="text-sm text-gray-400">Expires in <b>5h</b></span>
                                 </span>
                                 <span>
-                                <Button outline className="flex justify-between items-center" color="danger" size="sm">
+                                <Button outline className="flex justify-between items-center" color="danger" size="sm" onClick={handleEndPoll}>
                                     <span><X width={16} height={15} className="-mt-.1 mr-2"/></span>
                                     <span>End Poll</span>
                                 </Button>
@@ -97,15 +108,19 @@ function Dashboard() {
                             </div>
                             {/* Records */}
                             <div className="records flex text-white text-center mb-4 justify-center">
-                                <div className="bg-success p-4 rounded-l-full w-3/5">
+                                <div className="bg-success p-4 flex justify-center items-center rounded-l-full w-3/5">
+                                    <span>
                                     <b>Yes</b> <span className="font-thin">300 votes (60%)</span>
+                                    </span>
                                 </div>
-                                <div className="bg-pink py-4 px-4 rounded-r-full w-2/5">
+                                <div className="bg-pink py-4 flex justify-center items-center px-4 rounded-r-full w-2/5">
+                                    <span>
                                     <b>No</b> <span className="font-thin">200 votes (40%)</span>
+                                    </span>
                                 </div>
                             </div>
                             {/* More records */}
-                            <div className="flex justify-between items-center">
+                            <div className="flex lg:flex-row flex-col justify-between items-center">
                                 <div className="">
                                     <Pill>1000 Potential Votes</Pill>
                                     <Pill>25 Undecided Votes</Pill>
