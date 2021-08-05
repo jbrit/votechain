@@ -83,7 +83,7 @@ function Dashboard() {
                             <div className="font-bold text-xl flex items-center">
                                 <span>Your Active Polls</span> <span className="mt-1 ml-4">{Radial}</span>
                             </div>
-                            <div className="flex justify-between mb-4">
+                            <div className="flex justify-between mb-4 lg:flex-row flex-col">
                                 <span className="text-2xl">
                                     Should the United Kingdom ban the <br /> buying and selling of Crypto coins? <br />
                                     <span className="text-sm text-gray-400">Expires in <b>5h</b></span>
@@ -106,7 +106,7 @@ function Dashboard() {
                             </div>
                             {/* More records */}
                             <div className="flex justify-between items-center">
-                                <div className="flex justify-between">
+                                <div className="">
                                     <Pill>1000 Potential Votes</Pill>
                                     <Pill>25 Undecided Votes</Pill>
                                     <Pill>25 Potential Votes</Pill>

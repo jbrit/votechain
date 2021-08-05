@@ -50,19 +50,20 @@ function CreatePoll() {
 
                             <div className="block mb-4">
                                 <Label>duration</Label>
-                                <div className="flex">
+                                <div className="">
                                     <Input
                                         label="start date"
                                         type="date"
-                                        width="w-60 2xl:w-80"
-                                        className="mr-4"
+                                        width="w-full lg:w-60 2xl:w-80"
+                                        className="mr-4 inline-block"
                                         normal
                                     />
                                     <Input
                                         label="end date"
                                         type="date"
-                                        width="w-60 2xl:w-80"
+                                        width="w-full lg:w-60 2xl:w-80"
                                         normal
+                                        className="inline-block"
                                     />
                                 </div>
                             </div>
@@ -70,7 +71,7 @@ function CreatePoll() {
                         <div className="">
                             <div className="block mb-4">
                                 <Label>Add Image</Label>
-                                <div className="border-4 border-dashed border-gray-200 w-full rounded-lg h-60 font-bold">
+                                <div className="border-4 border-dashed border-gray-200 w-full rounded-lg h-60 font-bold px-2">
                                     <input
                                         id=""
                                         type="file"

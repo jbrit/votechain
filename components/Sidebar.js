@@ -59,14 +59,14 @@ export default function Sidebar() {
           <div className="flex justify-between">
             <Link href="/">
               <a className="text-primary flex items-center font-bold">
-                <Image src={logo} width={80} height={100}/>
+                <Image src={logo} width={80} height={80}/>
                 Votechain
               </a>
             </Link>
             
             {/* Toggler */}
             <button
-              className="cursor-pointer text-black ml-3 mt-1 fixed left-64 top-12 left lg:hidden"
+              className="cursor-pointer text-black ml-3 mt-2 fixed left-64 top-8 left lg:hidden"
               type="button"
               onClick={() => setCollapseShow(!collapseShow)}>
               <AlignLeft className="text-gray-400" width={30} height={30}/>
