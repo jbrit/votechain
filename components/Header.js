@@ -1,6 +1,6 @@
 import React from 'react'
 import Notifications from './Notifications'
-import SearchBar from './Searchbar'
+import SearchBar from './SearchBar'
 import UserPopover from './UserPopover'
 
 function Header() {
