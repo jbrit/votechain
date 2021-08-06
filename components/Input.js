@@ -2,7 +2,7 @@ import React from "react";
 import Label from "./Label";
 
 function Input({
-    label,
+    label=false,
     type = "text",
     placeholder,
     className="",
@@ -13,7 +13,7 @@ function Input({
     if (!textArea) {
         return (
             <div className={`block mb-4 ${className} ${width}`}>
-                <Label normal={normal}>{label}</Label>
+                {label && <Label normal={normal}>{label}</Label>}
                 <input
                     id=""
                     type={type}
@@ -25,7 +25,7 @@ function Input({
     } else {
         return (
             <div className={`block mb-4 ${className}`}>
-                <Label normal={normal}>{label}</Label>
+                {label && <Label normal={normal}>{label}</Label>}
                 <textarea
                     id=""
                     rows="5"

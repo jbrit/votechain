@@ -12,7 +12,8 @@ module.exports = {
       primary:{
         DEFAULT:"#4263eb",
         hover:"#2342c0",
-        disabled:"#4264eb80"
+        disabled:"#4264eb80",
+        light:"#5472ED"
       },
       secondary:{
         DEFAULT:"#7048e8",
@@ -22,7 +23,10 @@ module.exports = {
       pink:"#F784AD",
       success:"#2BBB94",
       danger:"#FF2052",
-      purple:"#7048E8",
+      purple:{
+        DEFAULT:"#7048E8",
+        hover:"#F4F1FD"
+      },
 
 
 

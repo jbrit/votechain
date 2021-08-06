@@ -8,7 +8,9 @@ import { Settings, Moon, Clock, Edit, Menu, ToggleLeft, ToggleRight, LogOut, Ali
 import SidebarItem from "./SidebarItem";
 import { CreatePoll, FillPoll, History } from "./Icons";
 import Header from "./Header";
-const routes = [
+import Toggler from "./Toggler";
+
+export const routes = [
   {
     name:"Dashboard",
     path:"/dashboard",
@@ -43,7 +45,7 @@ const routes = [
     name:"Dark Mode",
     path:"#",
     icon:<Moon strokeWidth={1} />,
-    toggle: {left:<ToggleLeft strokeWidth={1}/>, right:<ToggleRight strokeWidth={1}/>}
+    toggle: <Toggler/>
   }
 ]
 
