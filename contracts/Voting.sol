@@ -3,9 +3,12 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-
+// TODO: Ensure options count from one
 contract Voting {
     // structs
+    struct VoteOptions{
+        string name;
+    }
     struct Poll {
         address owner;
         string name;
@@ -13,6 +16,9 @@ contract Voting {
         uint start_time;
         uint end_time;
         uint fee;
+        uint option_count; // Number of options
+        mapping(uint => VoteOptions ) options; // mapping of index+1(option_id) to options (should start from 1)
+        mapping(address => uint ) votes; // mapping of address to option_id (should start from 1)
     }
     
     // Variables
@@ -35,12 +41,25 @@ contract Voting {
     }
 
     // Public Functions 
-    function createPoll() public {
+    function createPoll(string memory name, string memory description, uint start_time, uint end_time, uint fee) public {
         // check end time after start time
-        emit createPollEvt(polls_created, msg.sender, "Default Name", "Default Description", 0, 100, 0);
-        polls[polls_created] = Poll(msg.sender, "Default Name", "Default Description", 0, 100, 0);
+        // Check more than one option
+        emit createPollEvt(polls_created, msg.sender, name, description, start_time, end_time, fee);
+        Poll storage newPoll = polls[polls_created];
+        newPoll.owner = msg.sender;
+        newPoll.name = name;
+        newPoll.description = description;
+        newPoll.start_time = start_time;
+        newPoll.end_time = end_time;
+        newPoll.fee = fee;
+
+        // Increment poll id
         polls_created++;
         console.log("New pollId is '%s'", polls_created);
+    }
+
+    function getUser() public view returns(string memory username) {
+        return address_to_username[msg.sender];
     }
 
     function createUser(string memory username) public{
