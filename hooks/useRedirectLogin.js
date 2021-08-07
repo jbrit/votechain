@@ -5,16 +5,15 @@ import routeNames from "../routes";
 export const useRedirectLogin = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const router = useRouter();
-  const isAuthRoute = router.pathname === routeNames.login;
 
   useEffect(() => {
-    const connectedWallet = !window.ethereum.selectedAddress === null;
+    const isAuthRoute = router.pathname === routeNames.login;
+    const connectedWallet = !(window.ethereum.selectedAddress === null);
     if (!isAuthRoute && !connectedWallet) {
-      router.push(routeNames.login);
-      setPageLoading(false);
+      router.replace(routeNames.login);
     } else {
       setPageLoading(false);
     }
-  }, []);
+  }, [router.pathname]);
   return { pageLoading };
 };
