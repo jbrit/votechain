@@ -1,13 +1,12 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
-
 // TODO: Ensure options count from one
 contract Voting {
     // structs
-    struct VoteOptions{
+    struct VoteOption{
         string name;
+        uint count;
     }
     struct Poll {
         address owner;
@@ -17,7 +16,7 @@ contract Voting {
         uint end_time;
         uint fee;
         uint option_count; // Number of options
-        mapping(uint => VoteOptions ) options; // mapping of index+1(option_id) to options (should start from 1)
+        mapping(uint => VoteOption ) options; // mapping of index+1 to options (should start from 1)
         mapping(address => uint ) votes; // mapping of address to option_id (should start from 1)
     }
     
@@ -34,17 +33,31 @@ contract Voting {
     address public owner;
     
     // events
-    event createPollEvt(uint pollId, address owner, string name, string description, uint start_time, uint end_time, uint fee);
+    event createPollEvt(uint pollId, address owner, string name, string description, uint start_time, uint end_time, uint fee, string[] options);
 
     constructor() {
         owner = msg.sender;
     }
 
+    // Private Functions
+    function validStr(string memory str) private pure returns(bool isValid) {
+        return bytes(str).length >= 1;
+    }
+
     // Public Functions 
-    function createPoll(string memory name, string memory description, uint start_time, uint end_time, uint fee) public {
-        // check end time after start time
+    function createPoll(string memory name, string memory description, uint start_time, uint end_time, uint fee, string[] memory options) public {
+        // Check string length
+        assert(validStr(name) && validStr(description));
+        // Check end time after start time
+        assert(end_time >= start_time);
         // Check more than one option
-        emit createPollEvt(polls_created, msg.sender, name, description, start_time, end_time, fee);
+        assert(options.length >= 2);
+        // Check that options have valid names
+        for (uint i=0; i<options.length; i++) {
+            assert(validStr(options[i]));
+        }
+
+        // Adding the poll
         Poll storage newPoll = polls[polls_created];
         newPoll.owner = msg.sender;
         newPoll.name = name;
@@ -52,10 +65,19 @@ contract Voting {
         newPoll.start_time = start_time;
         newPoll.end_time = end_time;
         newPoll.fee = fee;
+        newPoll.option_count = options.length;
+
+        // Adding the poll options
+        for (uint i=0; i<options.length; i++) {
+            VoteOption storage option = newPoll.options[newPoll.option_count+1];
+            option.name = options[i];   
+        }
+
+
+        emit createPollEvt(polls_created, msg.sender, name, description, start_time, end_time, fee, options);
 
         // Increment poll id
         polls_created++;
-        console.log("New pollId is '%s'", polls_created);
     }
 
     function getUser() public view returns(string memory username) {
@@ -64,6 +86,7 @@ contract Voting {
 
     function createUser(string memory username) public{
         // Make checks to ensure user name is not empty && not taken && address not registered
+        assert(validStr(username));
         address_to_username[msg.sender] = username;
         username_to_address[username] = msg.sender;
     }
@@ -87,5 +110,9 @@ contract Voting {
             }
         }
         return (names, descriptions, start_times, end_times, fees);
+    }
+
+    function recentPoll() public view returns(uint num){
+        return polls_created;
     }
 }

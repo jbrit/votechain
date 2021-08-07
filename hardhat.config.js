@@ -16,6 +16,18 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+const privateKey = "";
 module.exports = {
   solidity: "0.8.4",
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {
+      chainId: 1337,
+    },
+    mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com/",
+      chainId: 80001,
+      accounts: [privateKey],
+    },
+  },
 };
