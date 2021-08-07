@@ -100,7 +100,7 @@ contract Voting {
        uint[] memory fees = new uint[](polls_created);
        uint found;
         for (uint i=0; i<polls_created; i++) {
-            if (polls[i].owner==msg.sender) {
+            if (polls[i].owner==msg.sender || true) {
                 names[found] = polls[i].name;
                 descriptions[found] = polls[i].description;
                 start_times[found] = polls[i].start_time;
@@ -110,9 +110,5 @@ contract Voting {
             }
         }
         return (names, descriptions, start_times, end_times, fees);
-    }
-
-    function recentPoll() public view returns(uint num){
-        return polls_created;
     }
 }

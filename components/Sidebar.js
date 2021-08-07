@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React from "react";
 import Link from "next/link";
-import logo from "../public/logo.png";
+import logo from "../public/svg/logo.svg";
 import Image from "next/image";
 import { TemplateIcon } from "@heroicons/react/outline";
 import {

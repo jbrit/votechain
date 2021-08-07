@@ -8,7 +8,9 @@ export const useRedirectLogin = () => {
 
   useEffect(() => {
     const isAuthRoute = router.pathname === routeNames.login;
-    const connectedWallet = !(window.ethereum.selectedAddress === null);
+    const connectedWallet =
+      typeof window.ethereum !== "undefined" &&
+      !(window.ethereum.selectedAddress === null);
     if (!isAuthRoute && !connectedWallet) {
       router.replace(routeNames.login);
     } else {

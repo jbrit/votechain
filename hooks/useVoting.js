@@ -14,11 +14,13 @@ const useVoting = async () => {
   const signer = provider.getSigner();
 
   const contract = new ethers.Contract(
-    "0x750f58AE83885b2f6Fe2Fb709d7A1aD37107Fc27",
+    "0xf4BD2F605E7E8e5AfA43C4719E8A1a70f0b6787B",
     Voting.abi,
     signer
   );
-  return { contract };
+  const address = await signer.getAddress();
+
+  return { address, contract };
 };
 
 export default useVoting;

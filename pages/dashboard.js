@@ -14,9 +14,10 @@ import Pill from "../components/Pill";
 import Link from "next/link";
 import Poll from "../components/Poll";
 import Modal from "../components/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import routeNames from "../routes";
+import useVoting from "../hooks/useVoting";
 
 function Dashboard() {
   const [openModal, setOpenModal] = useState(false),
@@ -52,6 +53,42 @@ function Dashboard() {
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const voting = useVoting();
+  const getPolls = async () => {
+    const { contract } = await voting;
+
+    /* 
+    Trying to illustrate how you create polls
+    Don't call these again 
+    Make sure metamask is connected to the mumbai testnet
+    And you have matic there
+    */
+
+    // await contract.createPoll(
+    //   "Best UI/UX Design Software.",
+    //   "Technology",
+    //   60,
+    //   3600,
+    //   0,
+    //   ["Figma", "Adobe XD", "Photoshop"]
+    // );
+    // await contract.createPoll(
+    //   "Best tool for Web development.", // name
+    //   "Technology", // Description
+    //   2000, // Start Time Stamp
+    //   90000, // End Time Stamp
+    //   0, // Poll Fees
+    //   ["Figma", "Adobe XD", "Photoshop"] // Options
+    // );
+
+    const allPolls = await contract.getPolls();
+    console.log(allPolls);
+  };
+
+  useEffect(() => {
+    getPolls();
+  }, []);
   return (
     <div>
       <Head>
