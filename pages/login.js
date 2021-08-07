@@ -5,7 +5,7 @@ import Image from "next/image";
 import { CheckCircle } from "react-feather";
 import Link from "next/link";
 import Head from "next/head";
-import useVoting from "../hooks/useVoting";
+import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import router from "next/router";
 import routeNames from "../routes";
@@ -13,14 +13,20 @@ import routeNames from "../routes";
 function Login() {
   const [pressed, setPressed] = useState(false);
   const [loading, setLoading] = useState(false);
-  router;
+
   const handleClick = async () => {
     setLoading(true);
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const web3Modal = new Web3Modal({
+        network: "mumbai",
+      });
+
+      const connection = await web3Modal.connect();
+
+      const provider = new ethers.providers.Web3Provider(connection);
+
       const signer = provider.getSigner();
       console.log(signer);
-      await useVoting();
     } catch (error) {
       setLoading(false);
       return;
