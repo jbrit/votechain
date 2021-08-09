@@ -8,7 +8,8 @@ function Button({
     onClick=()=>{},
     color="primary",
     width="w-60",
-    size="default"
+    size="default",
+    type="button"
     }) {
     let padding = "p-3"
     if(size="sm"){
@@ -18,14 +19,14 @@ function Button({
 
     if(outline){
         return (
-            <button onClick={onClick} disabled={disabled} 
+            <button onClick={onClick} disabled={disabled} type={type} 
             className={`rounded-md border border-${color} ${width} text-${color} ${padding} ${className}`}>
                 {children}
             </button>
         )
     }else{
         return (
-            <button onClick={onClick} disabled={disabled} 
+            <button onClick={onClick} disabled={disabled} type={type} 
             className={`rounded-md bg-${color} ${width} text-white ${padding} ${className}`}>
                 {children}
             </button>

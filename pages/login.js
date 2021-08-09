@@ -27,6 +27,8 @@ function Login() {
 
       const signer = provider.getSigner();
       console.log(signer);
+      const user = await signer.getAddress()
+      localStorage.setItem("dappUser",user)
     } catch (error) {
       setLoading(false);
       return;

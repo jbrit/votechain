@@ -1,9 +1,14 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Image from 'next/image'
 import avatar from '../public/avatar.png'
 import { Popover, Transition } from "@headlessui/react";
 
 function UserPopover() {
+    const [user, setUser] = useState(null)
+    useEffect(()=> {
+        const localUser = localStorage.getItem("dappUser")
+        localUser && setUser(localUser)
+    },[])
     return (
         <div>
             <Popover className="relative">
@@ -28,20 +33,9 @@ function UserPopover() {
                                                 <span className="block">
                                                     Hello User!
                                                 </span>
-                                                <span className="text-gray-400">
-                                                ID: 45279012
+                                                <span className="text-gray-400 break-words">
+                                                {user && `ID: ${user}`}
                                                 </span>
-                                            </span>
-                                            <span className="px-7 border-b py-2 hover:bg-purple-hover">
-                                                <span className="block">
-                                                    Account Settings
-                                                </span>
-                                                <span>
-                                                Support
-                                                </span>
-                                            </span>
-                                            <span className="px-7 border-b py-2 hover:bg-purple-hover text-danger">
-                                                    Disable Account
                                             </span>
                                     </div>
                                 </div>
