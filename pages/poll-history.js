@@ -1,18 +1,19 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
+import Card from '../components/Card'
 import useVoting from '../hooks/useVoting';
 
 function PollHistory() {
+    const voting = useVoting();
     useEffect(() => {
-        const voting = useVoting();
         const getPolls = async () => {
             const { contract } = await voting;
 
             const allPolls = await contract.getPolls();
             console.log(allPolls);
         };
-    }, [input])
+    }, [])
 
     return (
         <div>
