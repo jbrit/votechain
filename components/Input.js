@@ -8,17 +8,20 @@ function Input({
     className="",
     width = "w-full",
     textArea = false,
-    normal=false
+    normal=false,
+    id=label,
+    onChange
 }) {
     if (!textArea) {
         return (
             <div className={`block mb-4 ${className} ${width}`}>
                 {label && <Label normal={normal}>{label}</Label>}
                 <input
-                    id=""
+                    id={id}
                     type={type}
                     placeholder={placeholder}
                     className={`font-thin border border-gray-300 rounded-lg p-4 ${width}`}
+                    onChange={onChange}
                 />
             </div>
         );
@@ -27,10 +30,11 @@ function Input({
             <div className={`block mb-4 ${className}`}>
                 {label && <Label normal={normal}>{label}</Label>}
                 <textarea
-                    id=""
+                    id={id}
                     rows="5"
                     placeholder={placeholder}
                     className={`font-thin border border-gray-300 rounded-lg p-4 ${width}`}
+                    onChange={onChange}
                 ></textarea>
             </div>
         );

@@ -56,7 +56,7 @@ function Dashboard() {
 
   const voting = useVoting();
   const getPolls = async () => {
-    const { contract } = await voting;
+  const { contract } = await voting;
 
     /* 
     Trying to illustrate how you create polls

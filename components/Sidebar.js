@@ -5,13 +5,9 @@ import logo from "../public/svg/logo.svg";
 import Image from "next/image";
 import { TemplateIcon } from "@heroicons/react/outline";
 import {
-  Settings,
   Moon,
   Clock,
   Edit,
-  Menu,
-  ToggleLeft,
-  ToggleRight,
   LogOut,
   AlignLeft,
 } from "react-feather";
@@ -44,18 +40,6 @@ export const routes = [
     path: "/poll-history",
     icon: History,
     toggle: null,
-  },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: <Settings strokeWidth={1} />,
-    toggle: null,
-  },
-  {
-    name: "Dark Mode",
-    path: "#",
-    icon: <Moon strokeWidth={1} />,
-    toggle: <Toggler />,
   },
 ];
 
@@ -96,6 +80,14 @@ function Sidebar() {
             {routes.map((route, i) => (
               <SidebarItem route={route} key={route.name} />
             ))}
+            <SidebarItem
+              route={{
+                name: "Dark Mode",
+                path: "#",
+                icon: <Moon strokeWidth={1} />,
+                toggle: <Toggler />,
+              }}
+            />
           </ul>
           {/* Collapse */}
         </div>
