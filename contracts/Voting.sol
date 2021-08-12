@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-// TODO: Ensure options count from one
 contract Voting {
     // structs
     struct VoteOption{
@@ -31,6 +30,7 @@ contract Voting {
        uint[] poll_ids;
        string[][] poll_options;
        uint[][] poll_options_votes;
+       uint[] poll_voted_idxs;
     }
 
     // Variables
@@ -60,14 +60,14 @@ contract Voting {
     // Public Functions 
     function createPoll(string memory name, string memory description, uint start_time, uint end_time, uint fee, string[] memory options) public {
         // Check string length
-        assert(validStr(name) && validStr(description));
+        require(validStr(name) && validStr(description));
         // Check end time after start time
-        assert(end_time >= start_time);
+        require(end_time >= start_time);
         // Check more than one option
-        assert(options.length >= 2);
+        require(options.length >= 2);
         // Check that options have valid names
         for (uint i=0; i<options.length; i++) {
-            assert(validStr(options[i]));
+            require(validStr(options[i]));
         }
 
         // Adding the poll
@@ -100,11 +100,10 @@ contract Voting {
 
     function createUser(string memory username) public{
         // Make checks to ensure user name is not empty && not taken && address not registered
-        assert(validStr(username));
+        require(validStr(username));
         address_to_username[msg.sender] = username;
         username_to_address[username] = msg.sender;
     }
-
 
     function getPolls() public view returns (GetVotesReturn memory poll_data) {
        address[] memory owners = new address[](polls_created);
@@ -114,6 +113,8 @@ contract Voting {
        uint[] memory end_times = new uint[](polls_created);
        uint[] memory fees = new uint[](polls_created);
        uint[] memory poll_ids = new uint[](polls_created);
+       uint[] memory voted_idxs = new uint[](polls_created);
+
         // array of arrays for options
        string[][] memory option_list = new string[][](polls_created);
         // array of arrays for options votes
@@ -126,6 +127,7 @@ contract Voting {
             end_times[i] = polls[i].end_time;
             fees[i] = polls[i].fee;
             poll_ids[i] = i;
+            voted_idxs[i] = polls[i].votes[msg.sender]-1;
             
             // get option_count from poll
             uint option_count = polls[i].option_count;
@@ -141,6 +143,26 @@ contract Voting {
             option_vote_list[i] = option_votes;
             
         }
-        return GetVotesReturn(owners, names, descriptions, start_times, end_times, fees, poll_ids, option_list, option_vote_list);
+        return GetVotesReturn(owners, names, descriptions, start_times, end_times, fees, poll_ids, option_list, option_vote_list, voted_idxs);
+    }
+
+    function vote(uint poll_id, uint option_id) payable public {
+        // Check that poll exists
+        require(poll_id < polls_created, "Poll does not exist");
+        // Check that option exists
+        require(option_id < polls[poll_id].option_count, "Option does not exist");
+        // Check that user has not already voted
+        require(polls[poll_id].votes[msg.sender] == 0, "User has already voted");
+        // Check that user has not voted in the future
+        require(polls[poll_id].start_time <= block.timestamp, "User has tried voting in the future");
+        // Check that user has not voted in the past
+        require(polls[poll_id].end_time >= block.timestamp, "User has tried voting for the past");
+        // Check that user has enough balance
+        require(msg.value >= polls[poll_id].fee, "User does not have enough balance");
+        // set poll.votes of user to option_id
+        polls[poll_id].votes[msg.sender] = option_id+1;
+        polls[poll_id].options[option_id+1].count++;
+        // transfer the balance to the poll owner
+        payable(polls[poll_id].owner).transfer(polls[poll_id].fee);
     }
 }

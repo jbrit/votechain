@@ -19,12 +19,25 @@ describe("Voting", function () {
     await this.voting.createPoll(
       "name",
       "string memory description",
-      60,
-      3600,
+      parseInt((Date.now() - 100)/1000),
+      parseInt((Date.now()+36000)/1000),
       0,
       ["string[]", "memory", "option"]
     );
 
-    expect((await this.voting.getPolls())[0]).to.eql(["name"]);
+    // vote and check vote count
+    await this.voting.vote(0,1);
+    
+    const polls = await this.voting.getPolls();
+
+    // Ensure it uses the correct vote count
+    expect(polls[8][0].map(value => parseInt(value["_hex"]))).to.eql([0, 1, 0]);
+
+    // Ensure it uses the correct name
+    expect(polls[1]).to.eql(["name"]);
+
+    // Ensure it uses the correct voted for id
+    expect(polls[9].map(value => parseInt(value["_hex"]))).to.eql([1]);
+
   });
 });
