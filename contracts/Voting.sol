@@ -17,9 +17,22 @@ contract Voting {
         uint fee;
         uint option_count; // Number of options
         mapping(uint => VoteOption ) options; // mapping of index+1 to options (should start from 1)
+        string[] option_names; // array of option names;
         mapping(address => uint ) votes; // mapping of address to option_id (should start from 1)
     }
-    
+    // get polls return values as a struct
+    struct GetVotesReturn {
+       address[] poll_owners;
+       string[] poll_names;
+       string[] poll_descriptions;
+       uint[] poll_start_times;
+       uint[] poll_end_times;
+       uint[] poll_fees;
+       uint[] poll_ids;
+       string[][] poll_options;
+       uint[][] poll_options_votes;
+    }
+
     // Variables
     uint polls_created;
     // Mapping of addresses to usernames
@@ -66,6 +79,7 @@ contract Voting {
         newPoll.end_time = end_time;
         newPoll.fee = fee;
         newPoll.option_count = options.length;
+        newPoll.option_names = options;
 
         // Adding the poll options
         for (uint i=0; i<options.length; i++) {
@@ -92,23 +106,41 @@ contract Voting {
     }
 
 
-    function getPolls() public view returns (string[] memory name, string[] memory description, uint[] memory start_time, uint[] memory end_time, uint[] memory fee) {
+    function getPolls() public view returns (GetVotesReturn memory poll_data) {
+       address[] memory owners = new address[](polls_created);
        string[] memory names = new string[](polls_created);
        string[] memory descriptions = new string[](polls_created);
        uint[] memory start_times = new uint[](polls_created);
        uint[] memory end_times = new uint[](polls_created);
        uint[] memory fees = new uint[](polls_created);
-       uint found;
+       uint[] memory poll_ids = new uint[](polls_created);
+        // array of arrays for options
+       string[][] memory option_list = new string[][](polls_created);
+        // array of arrays for options votes
+        uint[][] memory option_vote_list = new uint[][](polls_created);
         for (uint i=0; i<polls_created; i++) {
-            if (polls[i].owner==msg.sender || true) {
-                names[found] = polls[i].name;
-                descriptions[found] = polls[i].description;
-                start_times[found] = polls[i].start_time;
-                end_times[found] = polls[i].end_time;
-                fees[found] = polls[i].fee;
-                found++;
+            owners[i] = polls[i].owner;
+            names[i] = polls[i].name;
+            descriptions[i] = polls[i].description;
+            start_times[i] = polls[i].start_time;
+            end_times[i] = polls[i].end_time;
+            fees[i] = polls[i].fee;
+            poll_ids[i] = i;
+            
+            // get option_count from poll
+            uint option_count = polls[i].option_count;
+            uint[] memory option_votes = new uint[](option_count);
+            for (uint j=0; j<option_count; j++) {
+                VoteOption memory option = polls[i].options[j+1];
+                option_votes[j] = option.count;
             }
+
+            // add options to option_list
+            option_list[i] = polls[i].option_names;
+            // add options_votes to option_vote_list
+            option_vote_list[i] = option_votes;
+            
         }
-        return (names, descriptions, start_times, end_times, fees);
+        return GetVotesReturn(owners, names, descriptions, start_times, end_times, fees, poll_ids, option_list, option_vote_list);
     }
 }

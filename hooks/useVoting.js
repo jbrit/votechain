@@ -14,7 +14,7 @@ const useVoting = async () => {
   const signer = provider.getSigner();
 
   const contract = new ethers.Contract(
-    "0xf4BD2F605E7E8e5AfA43C4719E8A1a70f0b6787B",
+    "0xBB262BD34e3B1bDcef5F97d4aD10fB4D60E18d56",
     Voting.abi,
     signer
   );
