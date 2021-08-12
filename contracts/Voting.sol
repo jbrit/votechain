@@ -127,7 +127,7 @@ contract Voting {
             end_times[i] = polls[i].end_time;
             fees[i] = polls[i].fee;
             poll_ids[i] = i;
-            voted_idxs[i] = polls[i].votes[msg.sender]-1;
+            voted_idxs[i] = polls[i].votes[msg.sender];
             
             // get option_count from poll
             uint option_count = polls[i].option_count;
