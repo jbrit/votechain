@@ -9,6 +9,7 @@ import Pill from "../components/Pill";
 import { X } from "react-feather";
 import { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
+import useVoting from "../hooks/useVoting";
 
 function CreatePoll() {
     const [percentage, setPercentage] = useState(0)
@@ -18,36 +19,66 @@ function CreatePoll() {
         description: "",
         startDate: "",
         endDate: "",
-        image: "",
         pollType: "free",
-        pollTag: "",
-        votingFee: ""
+        votingFee: "",
+        options: []
 
     })
+    const [counter, setCounter] = useState(1);
+    const voting = useVoting();
+
+
     const handleChange = e => {
         const { value, id } = e.target
         setForm({ ...form, [id]: value })
 
     }
 
+    const handleOptionChange = e => {
+        const { value } = e.target
+        const { options } = form;
+        if (!options.filter(x => x === value).length > 0) {
+            setForm({ ...form, options: [...form.options, value] })
+        }
+    }
+
     const handleSubmit = e => {
         e.preventDefault()
+        let votingFee = 0
         console.log(form)
-        // await contract.createPoll(
-        //   "Best UI/UX Design Software.",
-        //   "Technology",
-        //   60,
-        //   3600,
-        //   0,
-        //   ["Figma", "Adobe XD", "Photoshop"]
-        // );
+        if (form.votingFee !== "") {
+            votingFee = form.votingFee
+        }
+        const getPolls = async () => {
+            const { contract } = await voting;
+            await contract.createPoll(
+                form.pollName,
+                form.description,
+                ((new Date(form.startDate).getTime()) / 1000),
+                ((new Date(form.endDate).getTime()) / 1000),
+                votingFee,
+                form.options
+            );
+        }
+        getPolls()
+        .then(r=>{
+            console.log(r)
+            alert("POLL CREATED SUCCESSFULLY !!!")
+        })
+        .catch(e=>{
+            console.log(e.message)
+            alert("Oops, something came up !!!, please ensure you filled the form correctly. "+e.message)
+        })
+
+        // new Date("2021-08-08").getTime()
+
     }
 
     useEffect(() => {
         let total = 0
         let formKeys = Object.keys(form)
         for (let x of formKeys) {
-            if (form[x] !== "") {
+            if (form[x].length !== 0) {
                 total++;
             }
             let percentage = Math.floor((total / formKeys.length) * 100)
@@ -130,7 +161,8 @@ function CreatePoll() {
                                 </div>
                             </div>
                             <div className="">
-                                <div className="block mb-4">
+
+                                {/* <div className="block mb-4">
                                     <Label>Add Image</Label>
                                     <div className="border-4 border-dashed border-gray-200 w-full rounded-lg h-60 font-bold px-2">
                                         <input
@@ -153,7 +185,7 @@ function CreatePoll() {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="mb-4">
                                     <Label>Poll Type</Label>
@@ -182,20 +214,6 @@ function CreatePoll() {
                                         type="number"
                                     />
                                 </Transition>
-
-                                <div className="mb-4 w-100">
-                                    <Label>Poll Tag</Label>
-                                    <div className="">
-                                        <Pill rounded className="px-4">
-                                            <span className="float-left mt-1">Politics</span>
-                                            <span className="float-right"><X width={15} /></span>
-                                        </Pill>
-                                        <Pill rounded className="px-4">
-                                            <span className="float-left mt-1">Politics</span>
-                                            <span className="float-right"><X width={15} /></span>
-                                        </Pill>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </Transition>
@@ -210,13 +228,20 @@ function CreatePoll() {
                         <div className="">
                             <h4 className="text-xl">Options</h4>
                         </div>
+                        <div>
+                            {Array(counter).fill(0).map((option, i) => (
+                                <Input label={`Option ${i + 1}`} id={i} name="option" key={i} onBlur={handleOptionChange} />
+                            ))}
+                            <Button onClick={() => setCounter(counter + 1)}>Add Option</Button>
+                            <Button color="pink" className="ml-4" onClick={() => setCounter(counter - 1)}>Reduce Option</Button>
+                        </div>
                     </Transition>
                 </Card>
 
                 <Card className="-mt-3 rounded-t-none">
                     <div className="flex justify-end">
                         {!next ?
-                            <Button size="sm" color="gray-300" onClick={() => setNext(true)}>
+                            <Button size="sm" color="gray-400" onClick={() => setNext(true)}>
                                 Next
                             </Button>
                             :

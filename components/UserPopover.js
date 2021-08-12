@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import Image from 'next/image'
 import avatar from '../public/avatar.png'
 import { Popover, Transition } from "@headlessui/react";
+import { User } from "react-feather";
 
 function UserPopover() {
     const [user, setUser] = useState(null)
@@ -15,7 +16,7 @@ function UserPopover() {
                 {({ open }) => (
                     <>
                         <Popover.Button className="focus:outline-none">
-                            <Image src={avatar} className={`cursor-pointer ${open && "border border-primary rounded p-1"}`}/>
+                            <User className={`cursor-pointer ${open && "text-primary"}`}/>
                         </Popover.Button>
                         <Transition
                             as={Fragment}

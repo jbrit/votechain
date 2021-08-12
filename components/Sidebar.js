@@ -80,14 +80,14 @@ function Sidebar() {
             {routes.map((route, i) => (
               <SidebarItem route={route} key={route.name} />
             ))}
-            <SidebarItem
+            {/* <SidebarItem
               route={{
                 name: "Dark Mode",
                 path: "#",
                 icon: <Moon strokeWidth={1} />,
                 toggle: <Toggler />,
               }}
-            />
+            /> */}
           </ul>
           {/* Collapse */}
         </div>
@@ -96,7 +96,7 @@ function Sidebar() {
           <SidebarItem
             route={{
               name: "Log out",
-              path: "/logout",
+              path: "/login",
               icon: <LogOut color="red" strokeWidth={1} />,
             }}
           />

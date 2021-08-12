@@ -9,8 +9,11 @@ function Input({
     width = "w-full",
     textArea = false,
     normal=false,
-    id=label,
-    onChange
+    id="",
+    onChange,
+    name="",
+    onBlur,
+    list=""
 }) {
     if (!textArea) {
         return (
@@ -18,7 +21,10 @@ function Input({
                 {label && <Label normal={normal}>{label}</Label>}
                 <input
                     id={id}
+                    name={name}
                     type={type}
+                    list={list}
+                    onBlur={onBlur}
                     placeholder={placeholder}
                     className={`font-thin border border-gray-300 rounded-lg p-4 ${width}`}
                     onChange={onChange}
@@ -31,6 +37,8 @@ function Input({
                 {label && <Label normal={normal}>{label}</Label>}
                 <textarea
                     id={id}
+                    name={name}
+                    onBlur={onBlur}
                     rows="5"
                     placeholder={placeholder}
                     className={`font-thin border border-gray-300 rounded-lg p-4 ${width}`}

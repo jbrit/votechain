@@ -8,10 +8,11 @@ export const useRedirectLogin = () => {
 
   useEffect(() => {
     const isAuthRoute = router.pathname === routeNames.login;
+    const user = localStorage.getItem("dappUser")
     const connectedWallet =
       typeof window.ethereum !== "undefined" &&
       !(window.ethereum.selectedAddress === null);
-    if (!isAuthRoute && !connectedWallet) {
+    if (!isAuthRoute && !connectedWallet && user !== null) {
       router.replace(routeNames.login);
     } else {
       setPageLoading(false);
