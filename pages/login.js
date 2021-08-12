@@ -27,6 +27,8 @@ function Login() {
 
       const signer = provider.getSigner();
       console.log(signer);
+      const user = await signer.getAddress()
+      localStorage.setItem("dappUser",user)
     } catch (error) {
       setLoading(false);
       return;
@@ -49,7 +51,7 @@ function Login() {
         <div className="bg-white p-10 py-32 text-center">
           {!pressed ? (
             <div className="card">
-              <Image src={logo} width={150} height={150} />
+              <Image src={logo} width={150} height={150} alt="" />
               <h1 className="text-primary text-4xl">
                 <b>Votechain</b>
               </h1>

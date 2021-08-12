@@ -15,6 +15,7 @@ export default function Home() {
           <Link key={i} href={route.path}><a className="block text-primary">{route.name}</a></Link>
         ))}
         <Link href="/404"><a className="text-primary block">404 page</a></Link>
+        <Link href="/login"><a className="text-primary block">Login page</a></Link>
       </main>
     </>
   );

@@ -16,20 +16,20 @@ import RadioCircleIcon from "../public/svg/radio-circle.svg"
 import RadioSelectedIcon from "../public/svg/radio-selected.svg"
 import Image from "next/image"
 
-export const Lightning = <Image src={LightningIcon}/>
-export const VoteChainHorizontal = <Image src={VoteChainHorizontalIcon} width={150} height={80}/>
-export const Login = <Image src={LoginIcon}/>
-export const Logo = <Image src={LogoIcon}/>
-export const BarChartCircle = <Image src={BarChartCircleIcon}/>
-export const RadialSmall = <Image src={RadialSmallIcon}/>
-export const Radial = <Image src={RadialIcon}/>
-export const Zap = <Image src={ZapIcon}/>
-export const Rate = <Image src={RateIcon}/>
-export const RadioCircle = <Image src={RadioCircleIcon}/>
-export const RadioSelected = <Image src={RadioSelectedIcon}/>
+export const Lightning = <Image src={LightningIcon} alt=""/>
+export const VoteChainHorizontal = <Image src={VoteChainHorizontalIcon} width={150} height={80} alt=""/>
+export const Login = <Image src={LoginIcon} alt=""/>
+export const Logo = <Image src={LogoIcon} alt=""/>
+export const BarChartCircle = <Image src={BarChartCircleIcon} alt=""/>
+export const RadialSmall = <Image src={RadialSmallIcon} alt=""/>
+export const Radial = <Image src={RadialIcon} alt=""/>
+export const Zap = <Image src={ZapIcon} alt=""/>
+export const Rate = <Image src={RateIcon} alt=""/>
+export const RadioCircle = <Image src={RadioCircleIcon} alt=""/>
+export const RadioSelected = <Image src={RadioSelectedIcon} alt=""/>
 
-export const Dashboard = <Image src={DashboardIcon}/>
-export const Toggle = <Image src={ToggleIcon}/>
-export const CreatePoll = <Image src={CreatePollIcon}/>
-export const FillPoll = <Image src={FillPollIcon}/>
-export const History = <Image src={HistoryIcon}/>
+export const Dashboard = <Image src={DashboardIcon} alt=""/>
+export const Toggle = <Image src={ToggleIcon} alt=""/>
+export const CreatePoll = <Image src={CreatePollIcon} alt=""/>
+export const FillPoll = <Image src={FillPollIcon} alt=""/>
+export const History = <Image src={HistoryIcon} alt=""/>
