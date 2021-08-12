@@ -9,7 +9,9 @@ function PollHistory() {
     const [polls, setPolls] = useState([])
     useEffect(() => {
         const polls = JSON.parse(localStorage.getItem("polls"))
-        setPolls(polls)
+        if (polls !== null){
+            setPolls(polls)
+        }
     }, [])
 
     const handleVote = e => {
