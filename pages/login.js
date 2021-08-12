@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import logo from "../public/svg/logo.svg";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import router from "next/router";
 import routeNames from "../routes";
+import { logout } from "../components/Utils";
 
 function Login() {
   const [pressed, setPressed] = useState(false);
@@ -37,6 +38,9 @@ function Login() {
     setTimeout(() => router.push(routeNames.dashboard), 1000);
   };
 
+  useEffect(()=>{
+    logout()
+  },[])
   return (
     <>
       <Head>
