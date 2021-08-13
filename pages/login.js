@@ -29,7 +29,7 @@ function Login() {
       const signer = provider.getSigner();
       console.log(signer);
       const user = await signer.getAddress()
-      localStorage.setItem("dappUser",user)
+      localStorage.setItem("dappUser", user)
     } catch (error) {
       setLoading(false);
       return;
@@ -38,9 +38,9 @@ function Login() {
     setTimeout(() => router.push(routeNames.dashboard), 1000);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     logout()
-  },[])
+  }, [])
   return (
     <>
       <Head>

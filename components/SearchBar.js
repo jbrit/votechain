@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 function SearchBar() {
     const [polls, setPolls] = useState([])
-    const [pollID, setPollID] = useState(null) 
+    const [pollID, setPollID] = useState("") 
     const router = useRouter();
     useEffect(() => {
         const polls = JSON.parse(localStorage.getItem("polls"))
@@ -36,7 +36,7 @@ function SearchBar() {
     const handleSubmit = e => {
         e.preventDefault()
         console.log(pollID)
-        // router.push("/pollDetails?id=2")
+        router.push(`/pollDetails/${pollID}`)
     }
     return (
         <Popover className="relative">

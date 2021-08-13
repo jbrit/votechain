@@ -13,7 +13,8 @@ function Input({
     onChange,
     name="",
     onBlur,
-    list=""
+    list="",
+    value
 }) {
     if (!textArea) {
         return (
@@ -24,6 +25,7 @@ function Input({
                     name={name}
                     type={type}
                     list={list}
+                    value={value}
                     onBlur={onBlur}
                     placeholder={placeholder}
                     className={`font-thin border border-gray-300 rounded-lg p-4 ${width}`}
@@ -39,6 +41,7 @@ function Input({
                     id={id}
                     name={name}
                     onBlur={onBlur}
+                    value={value ? value : undefined}
                     rows="5"
                     placeholder={placeholder}
                     className={`font-thin border border-gray-300 rounded-lg p-4 ${width}`}
