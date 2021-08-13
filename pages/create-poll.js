@@ -47,7 +47,7 @@ function CreatePoll() {
         let votingFee = 0
         console.log(form)
         if (form.votingFee !== "") {
-            votingFee = form.votingFee
+            votingFee = Number(form.votingFee)
         }
         const getPolls = async () => {
             const { contract } = await voting;
@@ -60,7 +60,8 @@ function CreatePoll() {
                 form.options
             );
         }
-        getPolls()
+        if(percentage === 100){
+            getPolls()
             .then(r => {
                 console.log(r)
                 alert("POLL CREATED SUCCESSFULLY !!!")
@@ -69,6 +70,9 @@ function CreatePoll() {
                 console.log(e.message)
                 alert("Oops, something came up !!!, please ensure you filled the form correctly. " + e.message)
             })
+        } else {
+            alert("Please fill the form completely")
+        }
 
         // new Date("2021-08-08").getTime()
 
