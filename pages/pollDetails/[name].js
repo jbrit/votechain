@@ -10,7 +10,7 @@ import { RadioGroup } from "@headlessui/react";
 import Sidebar from "../../components/Sidebar";
 
 
-function PollDetails() {
+export default function PollDetails() {
     const router = useRouter();
     const name = router.query.name
     console.log(router.query)
@@ -129,5 +129,3 @@ function PollDetails() {
         </div>
     )
 }
-
-export default PollDetails
