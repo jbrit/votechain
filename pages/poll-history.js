@@ -65,7 +65,7 @@ function PollHistory() {
                                                 <RadioGroup.Option value={i} disabled key={i}>
                                                     {({ checked }) => (
                                                         <Pill
-                                                            textSize="lg"
+                                                            textSize="md"
                                                             className="cursor-pointer pt-3"
                                                             rounded color={checked ? 'bg-primary text-white' : 'bg-gray-100'}>
                                                             {option.name} {poll.voted && `(${option.votes})`}

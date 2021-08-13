@@ -126,20 +126,6 @@ function Dashboard() {
                       </span>
                     </span>
                   </div>
-                  {/* Records */}
-                  <div className="records flex text-white text-center mb-4 justify-center">
-                    <div className="bg-success p-4 flex justify-center items-center rounded-l-full w-3/5">
-                      <span>
-                        <b>Yes</b>{" "}
-                        <span className="font-thin">300 votes (60%)</span>
-                      </span>
-                    </div>
-                    <div className="bg-pink py-4 flex justify-center items-center px-4 rounded-r-full w-2/5">
-                      <span>
-                        <b>No</b> <span className="font-thin">200 votes (40%)</span>
-                      </span>
-                    </div>
-                  </div>
                   {/* More records */}
                   <div className="flex lg:flex-row flex-col justify-between items-center">
                     <div className="flex flex-wrap justify-center">

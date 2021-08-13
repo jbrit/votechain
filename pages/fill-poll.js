@@ -123,12 +123,12 @@ function FillPoll() {
                                 <div className="text-center">
                                     <RadioGroup value={optionID} onChange={setOptionID}>
                                         <RadioGroup.Label className="text-xl">Options</RadioGroup.Label>
-                                        <div className="flex flex-wrap justify-center">
+                                        <div className="flex flex-1 flex-wrap justify-center">
                                             {poll.options.map((option, i) => (
                                                 <RadioGroup.Option value={i} disabled={poll.voted} key={i}>
                                                     {({ checked }) => (
                                                         <Pill
-                                                            textSize="lg"
+                                                            textSize="md"
                                                             className="cursor-pointer pt-3"
                                                             rounded color={checked ? 'bg-primary text-white' : 'bg-gray-100'}>
                                                             {option.name} {poll.voted && `(${option.votes})`}
