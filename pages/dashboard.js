@@ -39,12 +39,13 @@ function Dashboard() {
     localStorage.setItem("polls", JSON.stringify(polls));
     setPolls(polls)
     const user = localStorage.getItem("dappUser")
-    const active = formatNumber(polls.filter(x => x.endTime <= Date.now()))
+    const active = polls.filter(x => new Date(x.endTime) >= Date.now())
+    console.log(active)
     if (user) {
       setCreated(formatNumber(polls.filter(x => x.createdBy === user).length))
       setActivePolls(active.filter(x => x.createdBy === user))
     }
-    setPending(active.length)
+    setPending(formatNumber(active.length))
     setFilled(formatNumber(polls.filter(x => x.voted).length))
   };
 
@@ -112,11 +113,14 @@ function Dashboard() {
                 <span>Your Active Polls</span>{" "}
                 <span className="mt-1 ml-4">{Radial}</span>
               </div>
-              {activePolls.length > 0 && activePolls.slice(0,1).map(poll => (
+              {activePolls.length > 0 && activePolls.slice(0, 1).map(poll => (
                 <div key={poll.id} className="mb-5">
                   <div className="mb-4">
                     <span className="text-2xl">
-                      {poll.name}
+                      <span className="text-sm text-gray-400 block">
+                        <b>{poll.name}</b>
+                      </span>
+                      {poll.description}
                       <span className="text-sm text-gray-400 block">
                         <b>{poll.duration}</b>
                       </span>
@@ -138,10 +142,10 @@ function Dashboard() {
                   </div>
                   {/* More records */}
                   <div className="flex lg:flex-row flex-col justify-between items-center">
-                    <div className="flex lg:flex-row flex-col justify-center">
-                      <Pill>1000 Potential Votes</Pill>
-                      <Pill>25 Undecided Votes</Pill>
-                      <Pill>25 Potential Votes</Pill>
+                    <div className="flex flex-wrap justify-center">
+                      {poll.options.map((option, i) => (
+                        <Pill key={i}>{option.name} ({option.votes} votes)</Pill>
+                      ))}
                     </div>
                     <div className="text-gray-400 text-xs">
                       {RadialSmall} Created {moment(poll.startTime).fromNow()}
@@ -167,11 +171,7 @@ function Dashboard() {
               <span>{Rate}</span>
             </div>
             {polls.slice(0, 2).map((poll, i) =>
-              i === polls.length - 1 ? (
-                <Poll poll={poll} key={poll.id} last />
-              ) : (
-                <Poll poll={poll} key={poll.id} />
-              )
+              <Poll poll={poll} key={poll.id} last={i === polls.length - 1} />
             )}
 
             <div className="justify-center flex">

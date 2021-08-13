@@ -1,4 +1,4 @@
-import { Transition } from '@headlessui/react'
+import { RadioGroup, Transition } from '@headlessui/react'
 import Head from 'next/head'
 import { useState } from 'react'
 import Card from '../components/Card'
@@ -6,6 +6,8 @@ import Input from '../components/Input'
 import Sidebar from '../components/Sidebar'
 import Button from '../components/Button'
 import useVoting from '../hooks/useVoting'
+import moment from 'moment'
+import Pill from '../components/Pill'
 
 function FillPoll() {
     const [pollID, setPollID] = useState(null);
@@ -33,6 +35,8 @@ function FillPoll() {
         if (poll) {
             setPoll(poll)
             console.log(poll)
+        } else {
+            alert("Poll not found")
         }
     }
 
@@ -43,20 +47,27 @@ function FillPoll() {
             const { contract } = await voting;
             await contract.vote(pollID, optionID)
         }
-        vote()
-            .then(r => {
-                console.log(r)
-                alert("POLL VOTED FOR SUCCESSFULLY !!!")
-            })
-            .catch(e => {
-                console.log(e)
-                const error = e.data.message
-                if(error.indexOf("past") > 0){
-                    alert("Oops, something came up !!!, you've voted before sir")
-                } else if(error.indexOf("future") > 0) {
-                    alert("Oops, something came up !!!, Poll Expired !!")
-                }
-            })
+
+        if (optionID !== null) {
+            vote()
+                .then(r => {
+                    console.log(r)
+                    alert("POLL VOTED FOR SUCCESSFULLY !!!")
+                })
+                .catch(e => {
+                    console.log(e)
+                    const error = e.data ? e.data.message : e.message
+                    if (error.indexOf("past") > 0) {
+                        alert("Oops, something came up !!!, you've voted before sir")
+                    } else if (error.indexOf("future") > 0) {
+                        alert("Oops, something came up !!!, Poll Expired !!")
+                    } else {
+                        alert("Transaction Cancelled")
+                    }
+                })
+        } else {
+            alert("Select an option please")
+        }
     }
 
     return (
@@ -72,24 +83,68 @@ function FillPoll() {
                     </Card>
                     <Card>
                         <Input placeholder="Paste a poll ID here..." onChange={handleChange} id="pollID" />
-                        <Button block width="w-100" onClick={handleGetPoll}>Get Poll</Button>
+                        <Button className="w-full" onClick={handleGetPoll}>Get Poll</Button>
                     </Card>
 
-                    {pollID !== "" && poll !== null &&
-                        <Card className="break-words">
-                            <h4 className="text-2xl">{poll.name}</h4>
-                            {JSON.stringify(poll)}
-                            <div>
-                                {poll.options.map((option, i) => (
-                                    <span className="mr-4" key={i}>
-                                        <input type="radio" id="option" name="#" value={i} key={i}
-                                            onChange={handleChange} /> {option.name}
-                                    </span>
-                                ))}
-                                <br />
-                                <Button onClick={handleVote}>Vote</Button>
-                            </div>
-                        </Card>
+                    {pollID !== "" && poll &&
+                        <>
+                            {/* <div className="shadow-2xl bg-primary rounded-lg -mb-8 text-white text-large p-12">
+                                <h4 className="text-4xl font-bold text-center">{poll.name} {poll.voted && `- ${poll.votes} votes`}</h4>
+                            </div> */}
+                            <Card className="break-words mx-10">
+                                <div className="mb-4 bg-primary rounded-lg text-white text-large p-5">
+                                    <h4 className="text-4xl font-bold text-center">{poll.name} {poll.voted && `- ${poll.votes} votes`}</h4>
+                                </div>
+                                <h4 className="text-2xl font-bold">{poll.description}</h4>
+
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="w-2/5">
+                                        <span className="text-gray-400 uppercase block">created by</span>
+                                        <span className=" break-words">{poll.createdBy}</span>
+                                    </div>
+                                    <div className="w-2/5">
+                                        <span className="text-gray-400 uppercase block">duration</span>
+                                        <span className={`font-bold text-${poll.duration === "Expired" ? "pink" : "success"}`}>{poll.duration}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="w-2/5">
+                                        <span className="text-gray-400 uppercase block">Began</span>
+                                        <span className=" break-words">{moment(poll.startTime).format("DD MMM YYYY")}</span>
+                                    </div>
+                                    <div className="w-2/5">
+                                        <span className="text-gray-400 uppercase block">Dated</span>
+                                        <span className="">{moment(poll.endTime).format("DD MMM YYYY")}</span>
+                                    </div>
+                                </div>
+                                {/* {JSON.stringify(poll)} */}
+                                <hr className="mb-4" />
+                                <div className="text-center">
+                                    <RadioGroup value={optionID} onChange={setOptionID}>
+                                        <RadioGroup.Label className="text-xl">Options</RadioGroup.Label>
+                                        <div className="flex flex-wrap justify-center">
+                                            {poll.options.map((option, i) => (
+                                                <RadioGroup.Option value={i} disabled={poll.voted} key={i}>
+                                                    {({ checked }) => (
+                                                        <Pill
+                                                            textSize="lg"
+                                                            className="cursor-pointer pt-3"
+                                                            rounded color={checked ? 'bg-primary text-white' : 'bg-gray-100'}>
+                                                            {option.name} {poll.voted && `(${option.votes})`}
+                                                        </Pill>
+                                                    )}
+                                                </RadioGroup.Option>
+                                            ))}
+
+                                        </div>
+                                    </RadioGroup>
+                                    {!poll.voted &&
+                                        <Button className="block w-full mt-5" onClick={handleVote}>Vote</Button>
+                                    }
+                                </div>
+                            </Card>
+                        </>
                     }
                 </div>
             </div>

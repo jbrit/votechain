@@ -15,7 +15,7 @@ export const structurePolls = (allPolls) => {
             createdBy: allPolls.poll_owners[i],
             startTime: new Date(Number(allPolls.poll_start_times[i]) * 1000),
             endTime: new Date(Number(allPolls.poll_end_times[i]) * 1000),
-            voted: Number(allPolls.poll_voted_idxs[i]) - 1 > 0,
+            voted: (Number(allPolls.poll_voted_idxs[i]) - 1) >= 0,
             votes: get_votes(allPolls, i),
             closed: is_closed(allPolls, i),
             duration: get_duration(new Date(Number(allPolls.poll_end_times[i]) * 1000))

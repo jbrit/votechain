@@ -61,14 +61,14 @@ function CreatePoll() {
             );
         }
         getPolls()
-        .then(r=>{
-            console.log(r)
-            alert("POLL CREATED SUCCESSFULLY !!!")
-        })
-        .catch(e=>{
-            console.log(e.message)
-            alert("Oops, something came up !!!, please ensure you filled the form correctly. "+e.message)
-        })
+            .then(r => {
+                console.log(r)
+                alert("POLL CREATED SUCCESSFULLY !!!")
+            })
+            .catch(e => {
+                console.log(e.message)
+                alert("Oops, something came up !!!, please ensure you filled the form correctly. " + e.message)
+            })
 
         // new Date("2021-08-08").getTime()
 
@@ -123,12 +123,14 @@ function CreatePoll() {
                         <div className="grid gap-10 xl:grid-cols-3 grid-cols-1">
                             <div className="form lg:col-span-2">
                                 <Input
+                                    value={form.pollName}
                                     id="pollName"
                                     label="poll name"
                                     placeholder="Enter the name of the poll here"
                                     onChange={handleChange}
                                 />
                                 <Input
+                                    value={form.description}
                                     textArea
                                     label="description"
                                     placeholder="A brief explanation of what this poll is about"
@@ -140,6 +142,7 @@ function CreatePoll() {
                                     <Label>duration</Label>
                                     <div className="">
                                         <Input
+                                            value={form.startDate}
                                             label="start date"
                                             type="date"
                                             width="w-full lg:w-60 2xl:w-80"
@@ -149,6 +152,7 @@ function CreatePoll() {
                                             onChange={handleChange}
                                         />
                                         <Input
+                                            value={form.endDate}
                                             label="end date"
                                             type="date"
                                             width="w-full lg:w-60 2xl:w-80"
@@ -207,8 +211,9 @@ function CreatePoll() {
                                     leaveTo="opacity-0">
 
                                     <Input
+                                        value={form.votingFee}
                                         label="voting fee"
-                                        placeholder="Enter the name of the poll here"
+                                        placeholder="0.005"
                                         id="votingFee"
                                         onChange={handleChange}
                                         type="number"
@@ -233,7 +238,7 @@ function CreatePoll() {
                                 <Input label={`Option ${i + 1}`} id={i} name="option" key={i} onBlur={handleOptionChange} />
                             ))}
                             <Button onClick={() => setCounter(counter + 1)}>Add Option</Button>
-                            <Button color="pink" className="ml-4" onClick={() => setCounter(counter - 1)}>Reduce Option</Button>
+                            {counter > 0 && <Button color="pink" className="ml-4" onClick={() => setCounter(counter - 1)}>Reduce Option</Button>}
                         </div>
                     </Transition>
                 </Card>
@@ -241,7 +246,7 @@ function CreatePoll() {
                 <Card className="-mt-3 rounded-t-none">
                     <div className="flex justify-end">
                         {!next ?
-                            <Button size="sm" color="gray-400" onClick={() => setNext(true)}>
+                            <Button size="sm" onClick={() => setNext(true)}>
                                 Next
                             </Button>
                             :
@@ -250,7 +255,7 @@ function CreatePoll() {
                                     Previous
                                 </Button>
                                 <Button size="sm" color="success" type="submit">
-                                    Submit
+                                    Create
                                 </Button>
                             </>
                         }

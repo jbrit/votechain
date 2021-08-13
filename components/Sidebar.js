@@ -20,7 +20,7 @@ export const routes = [
   {
     name: "Dashboard",
     path: "/dashboard",
-    icon: <TemplateIcon width={20} height={20} strokeWidth={1} />,
+    icon: <TemplateIcon width={25} height={25} className="text-gray-400" strokeWidth={1} />,
     toggle: null,
   },
   {
