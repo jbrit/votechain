@@ -79,7 +79,7 @@ function CreatePoll() {
     }
 
     useEffect(() => {
-        let total = 0
+        let total = 1
         let formKeys = Object.keys(form)
         for (let x of formKeys) {
             if (form[x].length !== 0) {
