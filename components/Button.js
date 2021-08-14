@@ -27,7 +27,7 @@ function Button({
     }else{
         return (
             <button onClick={onClick} disabled={disabled} type={type} 
-            className={`rounded-md bg-${color} ${width} text-white ${padding} ${className}`}>
+            className={`rounded-md bg-${color} text-white ${padding} ${className} ${width}`}>
                 {children}
             </button>
         )

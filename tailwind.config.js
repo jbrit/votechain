@@ -21,7 +21,9 @@ module.exports = {
         disabled:"5028c6"
       },
       pink:"#F784AD",
-      success:"#2BBB94",
+      success:{
+        DEFAULT:"#2BBB94"
+      },
       danger:"#FF2052",
       purple:{
         DEFAULT:"#7048E8",
