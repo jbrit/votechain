@@ -1,15 +1,12 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import Image from 'next/image'
 import avatar from '../public/avatar.png'
 import { Popover, Transition } from "@headlessui/react";
 import { User } from "react-feather";
+import { appDetailsContext } from "../context/AppDetails";
 
 function UserPopover() {
-    const [user, setUser] = useState(null)
-    useEffect(()=> {
-        const localUser = localStorage.getItem("dappUser")
-        localUser && setUser(localUser)
-    },[])
+    const [{address: user}] = useContext(appDetailsContext);
     return (
         <div>
             <Popover className="relative">

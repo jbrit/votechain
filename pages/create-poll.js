@@ -54,7 +54,7 @@ function CreatePoll() {
         form.options
       );
     };
-    if (percentage === 100) {
+    if (percentage >= 100) {
       createPoll()
         .then((r) => {
           alert("POLL CREATED SUCCESSFULLY !!!");
@@ -108,7 +108,7 @@ function CreatePoll() {
               <ProgressBar progressPercentage={percentage} />
               <span className="mt-2 text-xs text-gray-400 flex justify-between">
                 <span>Started and underway</span>
-                <span>{percentage}%</span>
+                <span>{percentage <= 100 ? percentage : 100}%</span>
               </span>
             </span>
           </div>

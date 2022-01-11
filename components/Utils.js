@@ -59,26 +59,3 @@ export const formatNumber = (number) => {
 export const logout = () => {
     localStorage.removeItem("dappUser");
 }
-/*
-Trying to illustrate how you create polls
-Don't call these again
-Make sure metamask is connected to the mumbai testnet
-And you have matic there
-*/
-
-// await contract.createPoll(
-//   "Best UI/UX Design Software.",
-//   "Technology",
-//   60,
-//   3600,
-//   0,
-//   ["Figma", "Adobe XD", "Photoshop"]
-// );
-// await contract.createPoll(
-//   "Best tool for Web development.", // name
-//   "Technology", // Description
-//   2000, // Start Time Stamp
-//   90000, // End Time Stamp
-//   0, // Poll Fees
-//   ["Figma", "Adobe XD", "Photoshop"] // Options
-// );

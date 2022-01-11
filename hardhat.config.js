@@ -24,6 +24,10 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
+    harmonytestnet: {
+      url: `https://api.s0.b.hmny.io`,
+      accounts: [privateKey]
+    },
     mumbai: {
       url: "https://rpc-mumbai.maticvigil.com/",
       chainId: 80001,

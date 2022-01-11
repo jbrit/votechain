@@ -1,17 +1,8 @@
 import React from "react";
 import { Lock, Unlock } from "react-feather";
 import moment from 'moment';
-// {
-//     "id": 0,
-//     "name": "Best UI/UX Design Software.",
-//     "fee": 0,
-//     "description": "Technology",
-//     "owner": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
-//     "start_time": "1970-01-01T00:01:00.000Z",
-//     "end_time": "1970-01-01T01:00:00.000Z",
-//     "voted": -1,
-//     "votes": 0
-// }
+
+
 function Poll({
     poll={
         name:"",

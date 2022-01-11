@@ -12,13 +12,14 @@ import Sidebar from "../components/Sidebar";
 import Pill from "../components/Pill";
 import Link from "next/link";
 import Poll from "../components/Poll";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import routeNames from "../routes";
 import useVoting from "../hooks/useVoting";
 import { formatNumber, structurePolls } from "../components/Utils";
 import moment from "moment";
 import { useQuery } from "react-query";
+import { appDetailsContext } from "../context/AppDetails";
 
 function Dashboard() {
   const router = useRouter();
@@ -35,7 +36,7 @@ function Dashboard() {
     return structurePolls(polls);
   });
 
-  const user = localStorage.getItem("dappUser") ?? "";
+  const [{address: user}] = useContext(appDetailsContext);
   const active = polls.filter((x) => new Date(x.endTime) >= Date.now());
   const activePolls = active.filter((x) => x.createdBy === user);
   const created = formatNumber(
@@ -45,7 +46,7 @@ function Dashboard() {
   const pending = formatNumber(active.length);
 
   useEffect(() => {
-    setPolls(pollData ?? []);
+    setPolls((pollData ?? []).sort((a, b) => b.id - a.id));
   }, [pollData]);
 
   return (

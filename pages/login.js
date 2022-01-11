@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button from "../components/Button";
 import logo from "../public/svg/logo.svg";
 import Image from "next/image";
@@ -10,10 +10,15 @@ import { ethers } from "ethers";
 import router from "next/router";
 import routeNames from "../routes";
 import { logout } from "../components/Utils";
+import { appDetailsContext } from "../context/AppDetails";
 
 function Login() {
   const [pressed, setPressed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [selectedNetwork, setSelectedNetwork] = useState("");
+
+  const [appDetails, setAppDetails] = useContext(appDetailsContext);
 
   const handleClick = async () => {
     setLoading(true);
@@ -25,12 +30,20 @@ function Login() {
       const provider = new ethers.providers.Web3Provider(connection);
 
       const signer = provider.getSigner();
-      const chainId = await provider.getNetwork();
+      const chainId = (await provider.getNetwork()).chainId;
       const user = await signer.getAddress();
-      // Compare Chain Id and other requirements
-      console.log(chainId);
-      localStorage.setItem("dappUser", user);
+
+      if (chainId !== parseInt(selectedNetwork)) {
+        setError("Please Connect to the selected network");
+        throw new Error("Please Connect to the selected network");
+      }
+
+      setAppDetails({
+        address: user,
+        chainId,
+      });
     } catch (error) {
+      console.log(error);
       setLoading(false);
       return;
     }
@@ -59,11 +72,44 @@ function Login() {
               <h1 className="text-primary text-4xl">
                 <b>Votechain</b>
               </h1>
-              <Button className="my-10" onClick={handleClick}>
+              <div className="mt-10">
+                <label>Network: </label>
+                <select
+                  className="form-select appearance-none
+                            block
+                            w-full
+                            px-3
+                            py-1.5
+                            text-base
+                            font-normal
+                            text-gray-700
+                            bg-white bg-clip-padding bg-no-repeat
+                            border border-solid border-gray-300
+                            rounded
+                            transition
+                            ease-in-out
+                            m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  value={selectedNetwork}
+                  onChange={(e) => {
+                    setError("");
+                    setSelectedNetwork(e.target.value);
+                  }}
+                >
+                  <option value="" disabled hidden>
+                    Select Network
+                  </option>
+                  <option value={1666700000}>Harmony Testnet Shard 0</option>
+                  <option value={80001}>Matic Mumbai</option>
+                </select>
+              </div>
+              <Button className="my-4" onClick={handleClick}>
                 {loading
                   ? "Connecting Securely..."
                   : "Connect to Metamask Wallet"}
               </Button>
+              {error && (
+                <div className="text-red-500 text-sm mb-10">{error}</div>
+              )}
               <p className="uppercase">
                 Login securely{" "}
                 <Link href="#">
