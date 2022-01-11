@@ -1,7 +1,7 @@
 
 # Voting dAPP
 
-This is a Voting dApp built with [Next.js](https://nextjs.org/) for the encode hackathon
+This is a Voting dApp built with [Next.js](https://nextjs.org/).
 
 Maintaining high-standard privacy and preventing vote tampering can be tough when developing voting apps, but incorporating Blockchain technology into an app can help you overcome these challenges.
 Voting D-APP is a Blockchain Voting Application that provides data integrity, data security, reduced fraud, and improved accountability when it comes to voting. This eliminates a single point of failure and protects personal information.
