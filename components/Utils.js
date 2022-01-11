@@ -22,7 +22,6 @@ export const structurePolls = (allPolls) => {
         }
     })
 
-    console.log(polls)
     return polls
 }
 

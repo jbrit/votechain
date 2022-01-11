@@ -18,18 +18,18 @@ function Login() {
   const handleClick = async () => {
     setLoading(true);
     try {
-      const web3Modal = new Web3Modal({
-        network: "mumbai",
-      });
+      const web3Modal = new Web3Modal();
 
       const connection = await web3Modal.connect();
 
       const provider = new ethers.providers.Web3Provider(connection);
 
       const signer = provider.getSigner();
-      console.log(signer);
-      const user = await signer.getAddress()
-      localStorage.setItem("dappUser", user)
+      const chainId = await provider.getNetwork();
+      const user = await signer.getAddress();
+      // Compare Chain Id and other requirements
+      console.log(chainId);
+      localStorage.setItem("dappUser", user);
     } catch (error) {
       setLoading(false);
       return;
@@ -39,8 +39,8 @@ function Login() {
   };
 
   useEffect(() => {
-    logout()
-  }, [])
+    logout();
+  }, []);
   return (
     <>
       <Head>

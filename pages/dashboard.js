@@ -1,4 +1,3 @@
-
 import Head from "next/head";
 import Card from "../components/Card";
 import Button from "../components/Button";
@@ -18,40 +17,37 @@ import { useRouter } from "next/router";
 import routeNames from "../routes";
 import useVoting from "../hooks/useVoting";
 import { formatNumber, structurePolls } from "../components/Utils";
-import moment from 'moment'
+import moment from "moment";
+import { useQuery } from "react-query";
 
 function Dashboard() {
   const router = useRouter();
   const [polls, setPolls] = useState([]);
-  const [filled, setFilled] = useState(0)
-  const [created, setCreated] = useState(0)
-  const [pending, setPending] = useState(0)
-  const [activePolls, setActivePolls] = useState([])
 
-  const voting = useVoting();
-
-  const getPolls = async () => {
+  const voting = useVoting({});
+  const {
+    data: pollData,
+    isLoading: pageLoading,
+    error,
+  } = useQuery("polls", async () => {
     const { contract } = await voting;
+    const polls = await contract.getPolls();
+    return structurePolls(polls);
+  });
 
-    const allPolls = await contract.getPolls();
-
-    const polls = structurePolls(allPolls)
-    localStorage.setItem("polls", JSON.stringify(polls));
-    setPolls(polls)
-    const user = localStorage.getItem("dappUser")
-    const active = polls.filter(x => new Date(x.endTime) >= Date.now())
-    console.log(active)
-    if (user) {
-      setCreated(formatNumber(polls.filter(x => x.createdBy === user).length))
-      setActivePolls(active.filter(x => x.createdBy === user))
-    }
-    setPending(formatNumber(active.length))
-    setFilled(formatNumber(polls.filter(x => x.voted).length))
-  };
+  const user = localStorage.getItem("dappUser") ?? "";
+  const active = polls.filter((x) => new Date(x.endTime) >= Date.now());
+  const activePolls = active.filter((x) => x.createdBy === user);
+  const created = formatNumber(
+    polls.filter((x) => x.createdBy === user).length
+  );
+  const filled = formatNumber(polls.filter((x) => x.voted).length);
+  const pending = formatNumber(active.length);
 
   useEffect(() => {
-    getPolls();
-  }, []);
+    setPolls(pollData ?? []);
+  }, [pollData]);
+
   return (
     <div>
       <Head>
@@ -60,6 +56,17 @@ function Dashboard() {
       <Sidebar />
 
       <div className="lg:ml-80 ml-16 mr-2 mt-5 p-4 rounded">
+        {pageLoading && (
+          <div className="mx-4 flex xl:flex-row flex-col xl:justify-between xl:px-4">
+            Loading...
+          </div>
+        )}
+        {error && (
+          <div className="mx-4 flex xl:flex-row flex-col xl:justify-between xl:px-4">
+            Error loading data...
+          </div>
+        )}
+
         <div className="mx-4 flex xl:flex-row flex-col xl:justify-between">
           <div className="xl:px-4 w-full mb-4">
             {/* left-top */}
@@ -71,17 +78,23 @@ function Dashboard() {
                 </div>
                 <div className="flex pr-5">
                   <div className="mr-4">
-                    <span className="text-bold text-purple text-3xl">{filled}</span>
+                    <span className="text-bold text-purple text-3xl">
+                      {filled}
+                    </span>
                     <br />
                     <span>Filled</span>
                   </div>
                   <div className="mr-4">
-                    <span className="text-bold text-pink text-3xl">{created}</span>
+                    <span className="text-bold text-pink text-3xl">
+                      {created}
+                    </span>
                     <br />
                     <span>Created</span>
                   </div>
                   <div>
-                    <span className="text-bold text-primary text-3xl">{pending}</span>
+                    <span className="text-bold text-primary text-3xl">
+                      {pending}
+                    </span>
                     <br />
                     <span>Pending</span>
                   </div>
@@ -113,32 +126,35 @@ function Dashboard() {
                 <span>Your Active Polls</span>{" "}
                 <span className="mt-1 ml-4">{Radial}</span>
               </div>
-              {activePolls.length > 0 && activePolls.slice(0, 1).map(poll => (
-                <div key={poll.id} className="mb-5">
-                  <div className="mb-4">
-                    <span className="text-2xl">
-                      <span className="text-sm text-gray-400 block">
-                        <b>{poll.name}</b>
+              {activePolls.length > 0 &&
+                activePolls.slice(0, 1).map((poll) => (
+                  <div key={poll.id} className="mb-5">
+                    <div className="mb-4">
+                      <span className="text-2xl">
+                        <span className="text-sm text-gray-400 block">
+                          <b>{poll.name}</b>
+                        </span>
+                        {poll.description}
+                        <span className="text-sm text-gray-400 block">
+                          <b>{poll.duration}</b>
+                        </span>
                       </span>
-                      {poll.description}
-                      <span className="text-sm text-gray-400 block">
-                        <b>{poll.duration}</b>
-                      </span>
-                    </span>
-                  </div>
-                  {/* More records */}
-                  <div className="flex lg:flex-row flex-col justify-between items-center">
-                    <div className="flex flex-wrap justify-center">
-                      {poll.options.map((option, i) => (
-                        <Pill key={i}>{option.name} ({option.votes} votes)</Pill>
-                      ))}
                     </div>
-                    <div className="text-gray-400 text-xs">
-                      {RadialSmall} Created {moment(poll.startTime).fromNow()}
+                    {/* More records */}
+                    <div className="flex lg:flex-row flex-col justify-between items-center">
+                      <div className="flex flex-wrap justify-center">
+                        {poll.options.map((option, i) => (
+                          <Pill key={i}>
+                            {option.name} ({option.votes} votes)
+                          </Pill>
+                        ))}
+                      </div>
+                      <div className="text-gray-400 text-xs">
+                        {RadialSmall} Created {moment(poll.startTime).fromNow()}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </Card>
 
             <div className="justify-center flex">
@@ -156,9 +172,9 @@ function Dashboard() {
               <span className="font-bold text-xl">Recent Polls</span>
               <span>{Rate}</span>
             </div>
-            {polls.slice(0, 2).map((poll, i) =>
+            {polls.slice(0, 2).map((poll, i) => (
               <Poll poll={poll} key={poll.id} last={i === polls.length - 1} />
-            )}
+            ))}
 
             <div className="justify-center flex">
               <Link href="/poll-history">
